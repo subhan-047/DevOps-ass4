@@ -3,31 +3,30 @@ pipeline {
 
     stages {
 
-        stage('Checkout Code') {
+        stage('Clone Repository') {
             steps {
-                git 'https://github.com/YOUR-USERNAME/azure-jenkins-ci-cd.git'
+                git 'https://github.com/subhan-047/DevOps-ass4.git'
             }
         }
 
         stage('Build') {
             steps {
-                echo 'No build required for static HTML application'
+                echo 'Build Successful'
             }
         }
 
         stage('Test') {
             steps {
-                echo 'No tests configured'
+                echo 'No Tests Implemented'
             }
         }
 
-        stage('Deploy to Azure VM') {
+        stage('Deploy to EC2') {
             steps {
-                sshagent(['azure-vm-credentials']) {
-                    sh '''
-                    scp -o StrictHostKeyChecking=no index.html azureuser@AZURE_PUBLIC_IP:/var/www/html/
-                    ssh azureuser@AZURE_PUBLIC_IP sudo systemctl restart nginx
-                    '''
+                sshagent(['ec2-key']) {
+                    sh """
+                    scp -o StrictHostKeyChecking=no index.html ubuntu@16.16.182.179:/var/www/html/index.html
+                    """
                 }
             }
         }
